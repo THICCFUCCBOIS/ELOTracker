@@ -348,47 +348,51 @@ public class MainActivity extends Activity
          * @return List of names and majors
          * @throws IOException
          */
-        private List<String> getDataFromApi() {
-            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            String range = "Class Data!A2:E";
+        private List<String> getDataFromApi() //throws IOException
+        {
+            String spreadsheetId = "1WOv-ia_iygguDAWSc7HnXxmUMO8__R9hFMBj0Teko9M";
+            String range = "Sheet1!B3:B7";
             List<String> results = new ArrayList<String>();
 
 
-            /** Original code from https://developers.google.com/sheets/api/quickstart/android */
-            ValueRange response = this.mService.spreadsheets().values()
-                    .get(spreadsheetId, range)
-                    .execute();
-            List<List<Object>> values = response.getValues();
-            if (values != null) {
-                results.add("Name, Major");
-                for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(4));
-                }
-            }
+            /** Original code from https://developers.google.com/sheets/api/quickstart/android
+             ValueRange response = this.mService.spreadsheets().values()
+             .get(spreadsheetId, range)
+             .execute();
+             List<List<Object>> values = response.getValues();
+             if (values != null) {
+             results.add("Name, Major");
+             for (List row : values) {
+             results.add(row.get(0) + ", " + row.get(4));
+             }
+             }
+             */
 
-
-            /** My attempt at exception handling lewl
             try {
                 //mOutputText.setText("TRY");
-                ValueRange response = this.mService.spreadsheets().values()
-                        .get(spreadsheetId, range)
-                        .execute();
+                ValueRange response = this.mService.spreadsheets().values().get(spreadsheetId, range).execute();
+
                 List<List<Object>> values = response.getValues();
-                if (values != null) {
+
+                if (values != null)
+                {
                     results.add("Name, Major");
-                    for (List row : values) {
-                        results.add(row.get(0) + ", " + row.get(4));
+
+                    for (List row : values)
+                    {
+                        results.add(row.get(0).toString());
                     }
                 }
-            } catch (IOException e) {
+            } catch (UserRecoverableAuthIOException e)
+            {
+                startActivityForResult(e.getIntent(), REQUEST_AUTHORIZATION);
                 //mOutputText.setText("CATCH");
                 //mOutputText.setText("No values found in spreadsheet."); // ?????
             }
-
-
-             */
-
-
+            catch (Exception e)
+            {
+                mOutputText.setText("Fail completely");
+            }
 
             return results;
         }

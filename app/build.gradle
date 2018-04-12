@@ -5,7 +5,7 @@ android {
     buildToolsVersion '27.0.3'
 
     defaultConfig {
-        applicationId "com.example.quickstart"
+        applicationId "com.example.paulhutchinson.elotracker"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
